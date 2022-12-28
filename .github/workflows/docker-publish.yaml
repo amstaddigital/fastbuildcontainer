@@ -25,12 +25,12 @@ jobs:
           base: ubuntu
           file: Dockerfile
           variant: latest
-          tag: adgmbh/fastbuild:${{ github.event.release.tag_name }}-ubuntu-latest
+          tag: amstaddigital/fastbuildcontainer:${{ github.event.release.tag_name }}-ubuntu-latest
         - os: windows-latest
           base: ghcr.io/epicgames/unreal-engine
           file: win.Dockerfile
           variant: runtime-windows
-          tag: adgmbh/fastbuild:${{ github.event.release.tag_name }}-windows-latest
+          tag: amstaddigital/fastbuildcontainer:${{ github.event.release.tag_name }}-windows-latest
     runs-on: ${{ matrix.os }}
     steps:
         - name: Checkout
