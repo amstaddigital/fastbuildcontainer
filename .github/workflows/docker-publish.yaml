@@ -45,7 +45,7 @@ jobs:
 
         - name: Docker Build
           run: |
-            docker buildx build -f ${{ matrix.file }} --build-arg BASE=${{ matrix.base }} --build-arg VARIANT=${{ matrix.variant }} .
+            docker buildx build -f ${{ matrix.file }} --build-arg BASE=${{ matrix.base }} --build-arg VARIANT=${{ matrix.variant }} -t ${{ matrix.tag }} .
         - name: Docker Push
           run: |
-            docker push ${{ matrix.tag }}
+            docker push ${{ env.REGISTRY }}/${{ matrix.tag }}
