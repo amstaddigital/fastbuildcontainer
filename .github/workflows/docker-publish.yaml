@@ -26,13 +26,13 @@ jobs:
           file: Dockerfile
           variant: latest
           tag: ghcr.io/${{ github.repository }}:ubuntu-${{ github.event.release.tag_name || 'latest' }}
-          docker: /usr/bin/docker
+          docker: docker buildx
         - os: windows-latest
           base: ghcr.io/epicgames/unreal-engine
           file: win.Dockerfile
           variant: runtime-windows
           tag: ghcr.io/${{ github.repository }}:windows-${{ github.event.release.tag_name || 'latest' }}
-          docker: C:\Windows\system32\docker.exe
+          docker: docker
     runs-on: ${{ matrix.os }}
     steps:
         - name: Checkout
@@ -47,7 +47,7 @@ jobs:
 
         - name: Docker Build
           run: |
-            ${{ matrix.docker }} buildx build --file ${{ matrix.file }} --build-arg BASE=${{ matrix.base }} --build-arg VARIANT=${{ matrix.variant }} -t ${{ matrix.tag }} .
+            ${{ matrix.docker }} build --file ${{ matrix.file }} --build-arg BASE=${{ matrix.base }} --build-arg VARIANT=${{ matrix.variant }} -t ${{ matrix.tag }} .
         - name: Docker Push
           run: |
             docker push ${{ matrix.tag }}
