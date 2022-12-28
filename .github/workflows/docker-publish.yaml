@@ -15,11 +15,11 @@ env:
 
 
 jobs:
-  build-linux:
+  publish-images:
     strategy:
       max-parallel: 2
       matrix:
-        os: [ubuntu-latest, windows-2019, windows-2022]
+        os: [ubuntu-latest, windows-latest]
         include:
         - os: ubuntu-latest
           base: ubuntu
