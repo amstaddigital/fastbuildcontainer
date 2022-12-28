@@ -25,12 +25,12 @@ jobs:
           base: ubuntu
           file: Dockerfile
           variant: latest
-          tag: ${{ env.REGISTRY }}/${{ github.repository }}:ubuntu-${{ github.event.release.tag_name || 'latest' }}
+          tag: ghcr.io/${{ github.repository }}:ubuntu-${{ github.event.release.tag_name || 'latest' }}
         - os: windows-latest
           base: ghcr.io/epicgames/unreal-engine
           file: win.Dockerfile
           variant: runtime-windows
-          tag: ${{ env.REGISTRY }}/${{ github.repository }}:windows-${{ github.event.release.tag_name || 'latest' }}
+          tag: ghcr.io/${{ github.repository }}:windows-${{ github.event.release.tag_name || 'latest' }}
     runs-on: ${{ matrix.os }}
     steps:
         - name: Checkout
@@ -48,4 +48,4 @@ jobs:
             docker buildx build -f ${{ matrix.file }} --build-arg BASE=${{ matrix.base }} --build-arg VARIANT=${{ matrix.variant }} -t ${{ matrix.tag }} .
         - name: Docker Push
           run: |
-            docker push ${{ env.REGISTRY }}/${{ matrix.tag }}
+            docker push ${{ matrix.tag }}
