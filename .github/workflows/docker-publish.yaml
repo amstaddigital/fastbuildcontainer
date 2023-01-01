@@ -24,7 +24,6 @@ jobs:
         - name: fb-ubuntu
           os: ubuntu-latest
           base: ubuntu
-          file: Dockerfile
           variant: latest
           tag: ghcr.io/${{ github.repository }}:fb-ubuntu-${{ github.event.release.tag_name || 'latest' }}
           docker: docker buildx
@@ -32,7 +31,6 @@ jobs:
         - name: fb-uewindows
           os: windows-latest
           base: ghcr.io/epicgames/unreal-engine
-          file: win.Dockerfile
           variant: runtime-windows
           tag: ghcr.io/${{ github.repository }}:fb-uewindows-${{ github.event.release.tag_name || 'latest' }}
           docker: docker
@@ -51,7 +49,7 @@ jobs:
 
         - name: Docker Build
           run: |
-            ${{ matrix.docker }} build --file ${{ matrix.file }} --build-arg BASEIMAGE=${{ matrix.base }} --build-arg VARIANT=${{ matrix.variant }} -t ${{ matrix.tag }} ${{ matrix.context }}
+            ${{ matrix.docker }} build --build-arg BASEIMAGE=${{ matrix.base }} --build-arg VARIANT=${{ matrix.variant }} -t ${{ matrix.tag }} ${{ matrix.context }}
         - name: Docker Push
           run: |
             docker push ${{ matrix.tag }}
