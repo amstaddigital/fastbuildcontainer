@@ -19,7 +19,7 @@ jobs:
     strategy:
       max-parallel: 5
       matrix:
-        name: [fb-ubuntu, fb-winserver, fb-nanoserver, fb-uewindows]
+        name: [fb-ubuntu, fb-uewindows]
         include:
         - name: fb-ubuntu
           os: ubuntu-latest
@@ -28,20 +28,7 @@ jobs:
           variant: latest
           tag: ghcr.io/${{ github.repository }}:fb-ubuntu-${{ github.event.release.tag_name || 'latest' }}
           docker: docker buildx
-        - name: fb-winserver
-          os: windows-latest
-          base: mcr.microsoft.com/windows/server
-          file: win.Dockerfile
-          variant: ltsc2022
-          tag: ghcr.io/${{ github.repository }}:fb-winserver-${{ github.event.release.tag_name || 'latest' }}
-          docker: docker
-        - name: fb-nanoserver
-          os: windows-latest
-          base: mcr.microsoft.com/windows/nanoserver
-          file: win.Dockerfile
-          variant: ltsc2022
-          tag: ghcr.io/${{ github.repository }}:fb-nanoserver-${{ github.event.release.tag_name || 'latest' }}
-          docker: docker
+          context: linux
         - name: fb-uewindows
           os: windows-latest
           base: ghcr.io/epicgames/unreal-engine
@@ -49,6 +36,7 @@ jobs:
           variant: runtime-windows
           tag: ghcr.io/${{ github.repository }}:fb-uewindows-${{ github.event.release.tag_name || 'latest' }}
           docker: docker
+          context: windows
     runs-on: ${{ matrix.os }}
     steps:
         - name: Checkout
@@ -63,7 +51,7 @@ jobs:
 
         - name: Docker Build
           run: |
-            ${{ matrix.docker }} build --file ${{ matrix.file }} --build-arg BASEIMAGE=${{ matrix.base }} --build-arg VARIANT=${{ matrix.variant }} -t ${{ matrix.tag }} .
+            ${{ matrix.docker }} build --file ${{ matrix.file }} --build-arg BASEIMAGE=${{ matrix.base }} --build-arg VARIANT=${{ matrix.variant }} -t ${{ matrix.tag }} ${{ matrix.context }}
         - name: Docker Push
           run: |
             docker push ${{ matrix.tag }}
