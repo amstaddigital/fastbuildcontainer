@@ -31,7 +31,13 @@ jobs:
           base: mcr.microsoft.com/windows/server
           file: win.Dockerfile
           variant: ltsc2022
-          tag: ghcr.io/${{ github.repository }}:windows-${{ github.event.release.tag_name || 'latest' }}
+          tag: ghcr.io/${{ github.repository }}:windows-ltsc2022${{ github.event.release.tag_name || 'latest' }}
+          docker: docker
+        - os: windows-latest
+          base: mcr.microsoft.com/windows/nanoserver
+          file: win.Dockerfile
+          variant: ltsc2022
+          tag: ghcr.io/${{ github.repository }}:windowsnano-ltsc2022${{ github.event.release.tag_name || 'latest' }}
           docker: docker
         - os: ue-windows-latest
           base: ghcr.io/epicgames/unreal-engine
