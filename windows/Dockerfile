@@ -10,7 +10,6 @@ ENV FASTBUILD_VERSION=${FASTBUILDVERSION}
 COPY scripts C:\fastbuild
 WORKDIR C:\fastbuild
 RUN powershell -file fbinstall.ps1
-RUN dir C:\fastbuild
 
 VOLUME C:\data
 ENV FASTBUILD_CACHE_PATH=C:\data\cache
