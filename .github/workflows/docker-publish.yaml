@@ -25,29 +25,25 @@ jobs:
           base: ubuntu
           file: Dockerfile
           variant: latest
-          name: fb-ubuntu
-          tag: ghcr.io/${{ github.repository }}:${{ matrix.name }}-${{ github.event.release.tag_name || 'latest' }}
+          tag: ghcr.io/${{ github.repository }}:fb-ubuntu-${{ github.event.release.tag_name || 'latest' }}
           docker: docker buildx
         - os: windows-latest
           base: mcr.microsoft.com/windows/server
           file: win.Dockerfile
-          name: fb-winserver
           variant: ltsc2022
-          tag: ghcr.io/${{ github.repository }}:${{ matrix.name }}-${{ github.event.release.tag_name || 'latest' }}
+          tag: ghcr.io/${{ github.repository }}:fb-winserver-${{ github.event.release.tag_name || 'latest' }}
           docker: docker
         - os: windows-latest
           base: mcr.microsoft.com/windows/nanoserver
           file: win.Dockerfile
-          name: fb-nanoserver
           variant: ltsc2022
-          tag: ghcr.io/${{ github.repository }}:${{ matrix.name }}-${{ github.event.release.tag_name || 'latest' }}
+          tag: ghcr.io/${{ github.repository }}:fb-nanoserver-${{ github.event.release.tag_name || 'latest' }}
           docker: docker
         - os: windows-latest
           base: ghcr.io/epicgames/unreal-engine
           file: win.Dockerfile
-          name: fb-uewindows
           variant: runtime-windows
-          tag: ghcr.io/${{ github.repository }}:${{ matrix.name }}-${{ github.event.release.tag_name || 'latest' }}
+          tag: ghcr.io/${{ github.repository }}:fb-uewindows-${{ github.event.release.tag_name || 'latest' }}
           docker: docker
     runs-on: ${{ matrix.os }}
     steps:
