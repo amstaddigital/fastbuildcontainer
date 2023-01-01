@@ -19,7 +19,7 @@ jobs:
     strategy:
       max-parallel: 5
       matrix:
-        name: [fb-ubuntu, fb-winserver, fb-nanoserver, fb-uewindows]
+        os: [ubuntu-latest, windows-latest, windows-latest, windows-latest]
         include:
         - os: ubuntu-latest
           base: ubuntu
