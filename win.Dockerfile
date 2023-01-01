@@ -12,5 +12,6 @@ VOLUME c:\data
 ENV FASTBUILD_CACHE_PATH =C:\data\cache
 ENV FASTBUILD_CACHE_MODE=rw
 ENV FASTBUILD_BROKERAGE_PATH=C:\data\broker
+EXPOSE 31264
 
 ENTRYPOINT "C:\fastbuild\FBuildWorker.exe -console -cpus=100% -mode=dedicated -nosubprocess"
