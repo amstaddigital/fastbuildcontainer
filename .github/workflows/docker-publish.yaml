@@ -19,8 +19,13 @@ jobs:
     strategy:
       max-parallel: 5
       matrix:
-        name: [fb-ubuntu, fb-uewindows]
+        name: [fb-ubuntu, fb-uewindows, squid-proxy]
         include:
+        - name: squid-proxy
+          os: ubuntu-latest
+          tag: ghcr.io/${{ github.repository }}:squid-proxy-${{ github.event.release.tag_name || 'latest' }}
+          docker: docker buildx
+          context: proxy
         - name: fb-ubuntu
           os: ubuntu-latest
           base: ubuntu
