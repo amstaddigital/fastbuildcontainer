@@ -34,9 +34,9 @@ jobs:
           docker: docker buildx
           context: linux
         - name: fb-uewindows
-          os: windows-latest
+          os: windows-2019
           base: ghcr.io/epicgames/unreal-engine
-          variant: runtime-windows
+          variant: runtime-windows@sha256:ed2d90ecb82cfc1ba60b94a01c552d6b91efbb3961c196a40af3a625f6134577
           tag: ghcr.io/${{ github.repository }}:fb-uewindows-${{ github.event.release.tag_name || 'latest' }}
           docker: docker
           context: windows
