@@ -9,7 +9,8 @@ ENV FASTBUILD_VERSION=${FASTBUILDVERSION}
 
 COPY scripts C:\fastbuild
 WORKDIR C:\fastbuild
-RUN powershell -file fbinstall.ps1
+# RUN powershell -file installchoco.ps1
+RUN powershell -file installtools.ps1
 
 VOLUME C:\data
 ENV FASTBUILD_CACHE_PATH=C:\data\cache
