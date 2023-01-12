@@ -33,7 +33,7 @@ function WebInstall {
   Expand-Archive -Path $archivePath -DestinationPath $Destination
 
   # check if zip isnt flat i.e. all files are nested inside a folder
-  flatten -PathToDir $Destination
+  # flatten -PathToDir $Destination
   Write-Host "Cleaning up!"
   Remove-Item $archivePath
   if ($AddToPath) {
@@ -41,32 +41,27 @@ function WebInstall {
   }
   Write-Host "Installation complete!"
 }
+$toolset = Get-ToolsetContent
+$requiredComponents = $toolset.visualStudio.workloads | ForEach-Object { "--add $_" }
+$releaseInPath = $toolset.visualStudio.edition
+$subVersion = $toolset.visualStudio.subversion
+$channel = $toolset.visualStudio.channel
+$bootstrapperUrl = "https://aka.ms/vs/${subVersion}/${channel}/vs_${releaseInPath}.exe"
+$workLoads = @(
+	$requiredComponents
+	"--remove Component.CPython3.x64"
+)
+$workLoadsArgument = [String]::Join(" ", $workLoads)
+# Install VS
+Install-VisualStudio -BootstrapperUrl $bootstrapperUrl -WorkLoads $workLoadsArgument
+
+Wait-Process -Id $(Start-Process -FilePath .\prerequisite.bat -NoNewWindow -PassThru).Id
+#ami-018bde64d7d1b4694
 
 AddToPath -PathToAdd "$env:ChocolateyInstall\bin"
 
-# # Install cygwin
-# $PACKAGES = "mintty,wget,ctags,diffutils,git,git-completion,libnfs8,libnfs-utils"
-# choco install -y cygwin 
-# C:\tools\cygwin\cygwinsetup.exe -P $PACKAGES -q
-# AddToPath -PathToAdd "C:\tools\cygwin\bin"
-
-# choco install -y winfsp --pre
-# $winfspPath = (Get-Item $(Get-ItemPropertyValue -Path hklm:\SOFTWARE\WOW6432Node\WinFsp\Services\memfs64 -Name Executable)).Directory.FullName
-# AddToPath -PathToAdd $winfspPath
-# https://downloads.rclone.org/rclone-current-windows-amd64.zip
 $fburl = "https://www.fastbuild.org/downloads/$env:FASTBUILD_VERSION/FASTBuild-Windows-x64-$env:FASTBUILD_VERSION.zip"
 WebInstall -InstallUrl $fburl -Destination $env:FASTBUILD_HOME -AddToPath $true
 
-# WebInstall -InstallUrl "https://downloads.rclone.org/rclone-current-windows-amd64.zip" -Destination C:\tools\rclone -AddToPath $true
-# mkdir "$env:USERPROFILE\AppData\Roaming\rclone" -ErrorAction SilentlyContinue
-# $rcloneConfig = "$env:USERPROFILE\AppData\Roaming\rclone\rclone.conf"
-# $rcloneCfg = "
-# [remote]
-# type = s3
-# env_auth = true
-# provider = AWS
-# region = us-east-1
-# acl = public-read-write
-# storage_class = 
-# "
-# Add-Content -Path $rcloneConfig -Value $rcloneCfg
+# Install-WindowsFeature -Name NFS-Client
+# New-PSDrive -Name "Z" -PSProvider "FileSystem" -Root "\\fs-0f1f61d2609906cbb.fsx.us-east-1.amazonaws.com\fsx\" -Persist
