@@ -3,7 +3,7 @@ function Add-ZFS
     if (!(Test-Path "Z:\")) {
         <# Action to perform if the condition is true #>
         Install-WindowsFeature -Name NFS-Client
-        New-PSDrive -Name Z -PSProvider FileSystem -Root "\\fs-05a414190b77570a4.fsx.us-east-1.amazonaws.com\fsx\" -Persist -Scope Global    
+        New-PSDrive -Name Z -PSProvider FileSystem -Root $env:driveUrl -Persist -Scope Global    
     }
     Get-ChildItem Z:\
 }
