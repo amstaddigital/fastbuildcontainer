@@ -40,5 +40,3 @@ goto :EOF
 echo "an error has occured"
 @echo off
 exit /b %ERRORLEVEL%
-
-aws ec2 create-image --instance-id i-00e53958a56b2892c --name "dovabuilder" --description "Builder base for dragonrealm"

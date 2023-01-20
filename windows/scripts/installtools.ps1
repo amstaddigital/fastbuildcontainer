@@ -33,7 +33,6 @@ function WebInstall {
   Expand-Archive -Path $archivePath -DestinationPath $Destination
 
   # check if zip isnt flat i.e. all files are nested inside a folder
-  flatten -PathToDir $Destination
   Write-Host "Cleaning up!"
   Remove-Item $archivePath
   if ($AddToPath) {
@@ -51,22 +50,22 @@ AddToPath -PathToAdd "$env:ChocolateyInstall\bin"
 # AddToPath -PathToAdd "C:\tools\cygwin\bin"
 
 # choco install -y winfsp --pre
-# $winfspPath = (Get-Item $(Get-ItemPropertyValue -Path hklm:\SOFTWARE\WOW6432Node\WinFsp\Services\memfs64 -Name Executable)).Directory.FullName
-# AddToPath -PathToAdd $winfspPath
-# https://downloads.rclone.org/rclone-current-windows-amd64.zip
+$winfspPath = (Get-Item $(Get-ItemPropertyValue -Path hklm:\SOFTWARE\WOW6432Node\WinFsp\Services\memfs64 -Name Executable)).Directory.FullName
+AddToPath -PathToAdd $winfspPath
+https://downloads.rclone.org/rclone-current-windows-amd64.zip
 $fburl = "https://www.fastbuild.org/downloads/$env:FASTBUILD_VERSION/FASTBuild-Windows-x64-$env:FASTBUILD_VERSION.zip"
 WebInstall -InstallUrl $fburl -Destination $env:FASTBUILD_HOME -AddToPath $true
 
-# WebInstall -InstallUrl "https://downloads.rclone.org/rclone-current-windows-amd64.zip" -Destination C:\tools\rclone -AddToPath $true
-# mkdir "$env:USERPROFILE\AppData\Roaming\rclone" -ErrorAction SilentlyContinue
-# $rcloneConfig = "$env:USERPROFILE\AppData\Roaming\rclone\rclone.conf"
-# $rcloneCfg = "
-# [remote]
-# type = s3
-# env_auth = true
-# provider = AWS
-# region = us-east-1
-# acl = public-read-write
-# storage_class = 
-# "
-# Add-Content -Path $rcloneConfig -Value $rcloneCfg
+WebInstall -InstallUrl "https://downloads.rclone.org/rclone-current-windows-amd64.zip" -Destination C:\tools\rclone -AddToPath $true
+mkdir "$env:USERPROFILE\AppData\Roaming\rclone" -ErrorAction SilentlyContinue
+$rcloneConfig = "$env:USERPROFILE\AppData\Roaming\rclone\rclone.conf"
+$rcloneCfg = "
+[remote]
+type = s3
+env_auth = true
+provider = AWS
+region = us-east-1
+acl = public-read-write
+storage_class = 
+"
+Add-Content -Path $rcloneConfig -Value $rcloneCfg

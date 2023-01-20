@@ -78,8 +78,7 @@ build {
 
   provisioner "powershell" {
     execution_policy = "unrestricted"
-    environment_vars = ["ChocolateyInstall=Z:\\apps\\choco", "ScriptPath=${var.script_path}"]
-    scripts          = ["${path.root}/scripts/Installers/init.ps1", "${path.root}/scripts/Installers/Configure-Antivirus.ps1", "${path.root}/scripts/Installers/Install-Choco.ps1"]
+    scripts          = ["${path.root}/scripts/Installers/Configure-Antivirus.ps1", "${path.root}/scripts/Installers/Install-Choco.ps1", "${path.root}/scripts/Installers/Install-Git.ps1",]
   }
 
   provisioner "windows-restart" {

@@ -2,7 +2,7 @@ Write-Host "Set TLS1.2"
 [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor "Tls12"
 
 Write-Host "Install chocolatey"
-$chocoExePath = "$env:ChocolateyInstall\bin"
+$chocoExePath = "C:\ProgramData\chocolatey\bin"
 
 # Add to system PATH
 $systemPath = [Environment]::GetEnvironmentVariable('Path', [System.EnvironmentVariableTarget]::Machine)

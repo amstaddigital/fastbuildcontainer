@@ -6,9 +6,7 @@ param()
 . $PSScriptRoot\ChocoHelpers.ps1
 . $PSScriptRoot\TestsHelpers.ps1
 . $PSScriptRoot\VisualStudioHelpers.ps1
-
 Export-ModuleMember -Function @(
-    'Add-ZFS'
     'Connect-Hive'
     'Disconnect-Hive'
     'Test-MachinePath'

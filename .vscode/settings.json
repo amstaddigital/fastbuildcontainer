@@ -1,0 +1,8 @@
+{
+  "xml.fileAssociations": [
+    {
+      "pattern": "**/BuildConfiguration.xml",
+      "systemId": "file:///e%3A/data/temp/ueghrunner/ue/Engine/Saved/UnrealBuildTool/BuildConfiguration.Schema.xsd"
+    }
+  ]
+}
